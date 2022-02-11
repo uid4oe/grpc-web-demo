@@ -6,7 +6,7 @@
 
 [Deployed, Check it out!](https://alva-grpc.web.app/)
 
-Please read the medium story before reviewing the implementation.
+Please read the [Medium Story](https://medium.com/alva-labs/building-microapps-with-grpc-web-64b7cdf50313) first.
 
 This repo contains microservices written in Go (gRPC Servers) and their envoy proxy configurations for establishing connection through gRPC-Web with the client (UI). gRPC Unary and gRPC Server-side Streaming examples are available in the services.
 
