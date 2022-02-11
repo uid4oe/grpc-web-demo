@@ -1,0 +1,110 @@
+version: "3.7"
+
+services:
+  alva-ui:
+    container_name: "ui"
+    image: uid4oe/alva-ui:latest
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - 3000:80
+  alva-catalog:
+    container_name: "catalog"
+    image: uid4oe/alva-catalog:latest
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - 55050:55050
+    command: /main
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    restart: always
+  alva-catalog-envoy:
+    container_name: "catalog-envoy"
+    image: uid4oe/alva-catalog-envoy:latest
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - "8000:8000"
+  alva-offer:
+    container_name: "offer"
+    image: uid4oe/alva-offer:latest
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - 55051:55051
+    command: /main
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+    restart: always
+  alva-offer-envoy:
+    container_name: "offer-envoy"
+    image: uid4oe/alva-offer-envoy:latest
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - "8001:8001"
+  alva-order:
+    container_name: "order"
+    image: uid4oe/alva-order:latest
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - 55052:55052
+    command: /main
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    restart: always
+  alva-order-envoy:
+    container_name: "order-envoy"
+    image: uid4oe/alva-order-envoy:latest
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - "8002:8002"
+  mongodb:
+    container_name: "mongodb"
+    image: mongo:latest
+    hostname: mongodb
+    restart: always
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb:/data/db
+      - mongoconfig:/data/configdb
+    env_file:
+      - .env
+    networks:
+      - grpc-web-demo-alva-net
+    ports:
+      - 27017:27017
+  postgres:
+    container_name: "postgres"
+    image: postgres:latest
+    hostname: postgres
+    user: postgres
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./all.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    env_file:
+      - .env
+    networks:
+      - grpc-web-demo-alva-net
+    command: "postgres"
+    ports:
+      - "5432:5432"
+
+volumes:
+  mongodb:
+  mongoconfig:
+  postgres:
+
+networks:
+  grpc-web-demo-alva-net:
+    external: true

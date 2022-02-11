@@ -1,0 +1,42 @@
+syntax = "proto3";
+package catalogpb;
+option go_package="./;catalogpb";
+
+
+message CatalogItem{
+    string id = 1;
+    string name = 2;
+    string details = 3;
+    string availability = 4;
+    int64 total_orders = 5;
+    int64 average_cost = 6;
+}
+
+message GetItemsRequest {
+}
+
+message GetItemsResponse {
+    repeated CatalogItem item = 1;
+}
+
+message GetItemRequest {
+    string id = 1;
+}
+
+message GetItemResponse {
+    CatalogItem item = 1;
+}
+
+message UpdateItemRequest {
+    string id = 1;
+    int64 latest_cost = 2;
+}
+
+message UpdateItemResponse {
+}
+
+service Catalog{
+    rpc GetItem(GetItemRequest) returns (GetItemResponse) {};
+    rpc GetItems(GetItemsRequest) returns (GetItemsResponse) {};
+    rpc UpdateItem(UpdateItemRequest) returns (UpdateItemResponse) {};
+}

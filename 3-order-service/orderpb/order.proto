@@ -1,0 +1,35 @@
+syntax = "proto3";
+package orderpb;
+option go_package="./;orderpb";
+
+message HandleOrderCompletionRequest{
+    string id = 1;
+    float rating = 2;
+}
+
+message HandleOrderCompletionResponse{
+    float rating = 1;
+}
+
+message CreateOrderRequest {
+    string offer_id = 1;
+}
+
+message CreateOrderResponse {
+    string id = 1;
+}
+
+message GetOrderDetailsRequest{
+    string id = 1;
+}
+
+message GetOrderDetailsResponse{
+    int32 step = 1;
+    string detail = 2;
+}
+
+service Order{
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {};
+    rpc GetOrderDetailStream(GetOrderDetailsRequest) returns (stream GetOrderDetailsResponse) {};
+    rpc HandleOrderCompletion(HandleOrderCompletionRequest) returns (HandleOrderCompletionResponse) {};
+}

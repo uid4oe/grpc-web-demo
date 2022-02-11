@@ -1,0 +1,57 @@
+syntax = "proto3";
+package offerpb;
+option go_package="./;offerpb";
+
+
+message PartnerInfo{
+    string id = 1;
+    string name = 2;
+    float rating = 3;
+    int64 orders = 4; 
+}
+
+
+message GetOfferStreamRequest {
+    string flow_id = 1;
+    string catalog_id = 2;
+}
+
+message GetOfferStreamResponse {
+    string id = 1;
+    PartnerInfo partner = 2;
+    int64 amount = 3;
+}
+
+message GetOfferDetailsRequest {
+    string id = 1;
+}
+
+message GetOfferDetailsResponse {
+    string id = 1;
+    string catalog_id = 2;
+    string partner_id = 3;
+    int64 amount = 4;
+}
+
+message UpdatePartnerTotalOrderRequest{
+    string id = 1;
+}
+
+message UpdatePartnerTotalOrderResponse{
+}
+
+message UpdatePartnerRatingRequest{
+    string id = 1;
+    float rating = 2;
+}
+
+message UpdatePartnerRatingResponse{
+    float rating = 1;
+}
+
+service Offer{
+    rpc GetOfferStream(GetOfferStreamRequest) returns (stream GetOfferStreamResponse) {};
+    rpc GetOfferDetails(GetOfferDetailsRequest) returns (GetOfferDetailsResponse) {};
+    rpc UpdatePartnerTotalOrder(UpdatePartnerTotalOrderRequest) returns (UpdatePartnerTotalOrderResponse) {};
+    rpc UpdatePartnerRating(UpdatePartnerRatingRequest) returns (UpdatePartnerRatingResponse) {};
+}
