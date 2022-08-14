@@ -112,7 +112,7 @@ func (s *server) GetOrderDetailStream(req *orderpb.GetOrderDetailsRequest,
 		wg.Add(1)
 		go func(order_detail orderdb.Order_Detail) {
 			defer wg.Done()
-			time.Sleep(2000 * time.Millisecond)
+			time.Sleep(1000 * time.Millisecond)
 
 			err = stream.Send(&orderpb.GetOrderDetailsResponse{Step: order_detail.Step, Detail: order_detail.Detail})
 			if err != nil {
@@ -123,7 +123,7 @@ func (s *server) GetOrderDetailStream(req *orderpb.GetOrderDetailsRequest,
 		}(order_detail)
 		wg.Wait()
 	}
-
+	stream.Context().Done()
 	log.Println("Order Service - Completed GetOrderDetailStream - Order ID:", req.Id)
 	return nil
 }

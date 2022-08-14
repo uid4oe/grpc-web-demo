@@ -38,48 +38,6 @@ func prepareOfferGrpcClient(c *context.Context) error {
 	return nil
 }
 
-/*
-
-func (uc *UserClient) CreateUpdateUser(user UserWithDetails, c *context.Context, method string) (string, error) {
-
-	if err := prepareOfferGrpcClient(c); err != nil {
-		return "", err
-	}
-
-	op := userpb.Operation_CREATE
-	if method == http.MethodPut {
-		op = userpb.Operation_UPDATE
-	}
-
-	res, err := offerGrpcServiceClient.CreateUpdateUser(*c, &userpb.CreateUpdateUserRequest{Operation: op,
-		Id: user.Id, Name: user.Name, Age: user.Age,
-		Greeting: user.Greeting, Salary: user.Salary, Power: user.Power,
-	})
-	if err != nil {
-		return "", errors.New(status.Convert(err).Message())
-	}
-	return res.Id, nil
-}
-
-func (uc *UserClient) GetUsers(c *context.Context) (*[]User, error) {
-
-	if err := prepareOfferGrpcClient(c); err != nil {
-		return nil, err
-	}
-
-	res, err := offerGrpcServiceClient.GetUsers(*c, &userpb.GetUsersRequest{})
-	if err != nil {
-		return nil, errors.New(status.Convert(err).Message())
-	}
-
-	var users []User
-	for _, u := range res.GetUsers() {
-		users = append(users, User{Id: u.Id, Name: u.Name, Age: u.Age, Greeting: u.Greeting})
-	}
-	return &users, nil
-}
-*/
-
 func (oc *OfferClient) GetOfferDetails(c *context.Context, id string) (*offerpb.GetOfferDetailsResponse, error) {
 
 	if err := prepareOfferGrpcClient(c); err != nil {
